@@ -1,0 +1,226 @@
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">-->
+<link rel="stylesheet" href="css/bootstrap.css"  type='text/css'>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src='js/bootstrap.js'></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8fnhWkpBL0TXYxf74BQSoorO3pdzi0Y4&sensor=true"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="DM_Home.js"></script>
+
+
+	
+<style>
+
+	table { border-collapse:collapse; }
+	table,th,td { border: 1px solid black; text-align: center; }
+	th { background-color: #E6E6E6; }
+
+
+    body{
+		font-family: 'Open Sans', sans-serif;
+		
+		margin: 10px;
+	}
+
+	123#mainPage
+	{
+		
+		margin: 0 auto;
+		text-align: center;
+	
+	}
+	.centered
+	{
+		margin: 0 auto;		
+	}
+
+    
+	#map_canvas 
+	{
+    	width:500px;
+    	height:300px;
+		align:left;
+    	border:1px solid #efefef;
+    	
+    	-moz-box-shadow:5px 5px 10px #000;
+    	-webkit-box-shadow:5px 5px 10px #000;
+	}
+</style>
+
+
+</head>
+
+
+<body>
+<div class="container">	
+<div class="span9" style="float: none; margin-left: auto; margin-right: auto"> 
+<div data-role="page" id="mainPage">
+
+
+	<h1><a href="http://localhost/DM/DM_Home.html">GRAIT-DM App</a></h1>
+
+    <!--<div data-role='header' data-position='inline' data-theme='d'>
+	    <h1>GRAIT-DM App</h1>
+	</div>-->
+	
+	<div id="content" data-role="content">
+		
+		<div id="menuButtons" class="btn-group">
+			<form name="go">
+				<input type="button" class="btn btn-primary" name="menu" value="Menu" data-transition="slideup" onclick="displayOptions()">
+			</form>
+			<h3>Motivation</h3>
+			<p class="text-justify">
+			Information technology (IT), and specifically ubiquitous wireless connectivity, has provided precious communications during and after the 2011 Tohoku Earthquake. Studies have shown the rapid propagation of very useful information, e.g., the gradual reopening of Tokyo Metro lines during the night of March 11, through social networks such as Twitter.
+			Big Data Will Transform Disaster Management, Again. We believe that the evolution of IT, under the concept of Big Data, will again transform disaster management. By Big Data we mean terabytes and petabytes of data related to a disaster than can be used to study the three main phases of disaster management: preparedness for, response to, and recovery from disasters. From IT point of view, Big Data is enabled by the convergence of several concurrently developed technologies: (1) powerful and inexpensive sensors, (2) ubiquitous wireless networks, and (3) affordable and distributed computing clouds. To achieve these goals, we propose the formation of the SAVI for Global Research on Applying Information Technology to Support Effective Disaster Management (GRAIT-DM).
+			</p>
+		</div>
+			
+		<div id="selectButtons" style="display:none" class="btn-group">
+			<form name="selectOption">
+           		<input type="button" class="btn btn-primary" name="selectdisasters" value="Select Disasters" data-transition="slideup" onclick="displayDisasterType()">
+           		<br><br>
+				<input type="button" class="btn btn-primary" name="selectlocation" value="Location Based Feeds" data-transition="slideup" onclick="displayLocationBasedFeeds()">			
+				<br><br>
+				
+ 				 <input type="button" class="btn btn-primary" name="selectMonitorDisasters" value="Monitor Latest Disasters" data-transition="slideup" onclick="monitorDisasters()">
+				 <br><br>	
+				
+				 <input type="button" class="btn btn-primary" name="selectCheckSafety" value="Monitor My location" data-transition="slideup" onclick="checkSafety()">
+				 <br><br>
+				
+				<input type="button" class="btn btn-primary" name="selectmonitorarea" value="Register for updates" data-transition="slideup" onclick="checkarea()">
+				 <br><br>
+			</form>
+		</div>
+
+		<div id="selectDisasters" style="display:none">
+			<form name="f_selectDisasters" role="form">
+			<div id="checkboxWrapper" class="checkbox form-group">	
+				<div class="checkbox">
+					<input id="checkbox1" type="checkbox" name="disasters"> <label for="checkbox1">Earthquakes</label> 
+				</div>
+				<div class="checkbox">
+					<input id="checkbox2" type="checkbox" name="disasters"><label for="checkbox2">Landslides</label>
+				</div>
+				<div class="checkbox">
+					<input id="checkbox3" type="checkbox" name="disasters"><label for="checkbox3">Rainfall</label>
+				</div>
+				<div class="checkbox">
+					<input id="checkbox4" type="checkbox" name="disasters"><label for="checkbox4">Area Select</label>
+				</div>
+				
+			</div>	
+			<div id="dropDownWrapper" class="form-group" >
+				<label>Select End Date </label><br>				
+				<select id="daydropdown"> </select>                                                       						
+                <select id="monthdropdown"> </select>                        	        		
+                <select id="yeardropdown"></select>                                                                
+                <br><br>
+				<label> Select Start Date </label>  <br>
+                <select id="daydropdown_start"> </select>                                                                                                               
+                <select id="monthdropdown_start"> </select>                
+                <select id="yeardropdown_start"></select>                                                                
+                <br><br>
+             </div>	
+				<input type="button" class="btn btn-primary" value="Submit" data-transition="slideup" onclick="displayDisasterMap()">
+				<input type="button" class="btn btn-primary" value="Back" data-transition="slideup" onclick="mainBackButton()">
+			</form>	
+
+		</div>
+
+
+		<div id="selectForLocationBased" style="display:none">
+			
+				<label>Select End Date </label><br>				
+				<select id="daydropdown_2"> </select>                                                       						
+                <select id="monthdropdown_2"> </select>                        	        		
+                <select id="yeardropdown_2"></select>                                                                
+                <br><br>
+				<label> Select Start Date </label>  <br>
+                <select id="daydropdown_start_2"> </select>                                                                                                               
+                <select id="monthdropdown_start_2"> </select>                
+                <select id="yeardropdown_start_2"></select>                                                                
+                <br><br>
+            
+				<input type="button" class="btn btn-primary" value="Submit" data-transition="slideup" onclick="displayLocationBasedMap()">
+				<input type="button" class="btn btn-primary" value="Back" data-transition="slideup" onclick="mainBackButton()">
+
+		</div>
+		
+		<div id="backButton" style="display:none">
+			<form name="back" class="pure-form">
+				<input type="button" class="btn btn-primary" name="back" value="Back" data-transition="slideup" onclick="backToOptions()">
+			</form>
+		</div>
+		<br>
+
+		<div id="AreaApplyButton" style="display:none">
+			<form name="area">
+				<input type="button" class="btn btn-default" name="Area" value="Apply Area" data-transition="slideup" onclick="applyarea()">
+			</form>
+		</div>
+
+		<div id="backButtonLocBasedFeeds" style="display:none">
+			<form name="back" class="pure-form">
+				<input type="button" class="btn btn-primary" name="back" value="Back" data-transition="slideup" onclick="backToOptionsLocBasedFeeds()">
+			</form>
+		</div>
+
+
+		<div id="monitorSelf" style="display:none">
+			<div id="div_email">
+				<form>
+					  Enter E-mail address: <input id="email" type="email" data-transition="slideup" name="email">
+  					<br><br>
+  					<button type="button" class="btn btn-default" onclick="displayemail()">Send Email</button>
+
+				</form>
+			</div>
+			<br>
+			<div id="divEmail" class='divEmail'></div>
+			<div id="showMap" style="display:none">
+				<form name="area">
+					<br>
+					<input type="button" class="btn btn-default" name="View on Map" value="View Map" data-transition="slideup" onclick="unhideMap()" id="mapButton">
+					<input type="button" class="btn btn-primary" value="Back" data-transition="slideup" onclick="mainBackButton()">
+				</form>
+			</div>
+		</div>	
+		
+		<br>
+		<div id="map_canvas" style="display:none"></div>
+
+		<div id="monitorLocDiv" style="display:none">
+			<input type="button" class="btn btn-primary" value="Back" data-transition="slideup" onclick="mainBackButton()">
+			<br><br>
+			<div id="divResults" class='divResults'></div>
+			
+		</div>
+
+		<div id="loadingImage" style="display:none">
+			<img border="0" src="images/loading.gif" width="304" height="228">
+		</div>
+
+		<div id="monitor_email" style="display:none">
+				<br><br>
+				Enter E-mail address: <input id="myemail" type="email" data-transition="slideup" name="email">
+  				<br><br>
+				<input type="button" class="btn btn-primary" value="Submit" data-transition="slideup" onclick="datatoserver()">
+				<br><br>
+		</div>
+		
+	</div>
+</div>
+</div>
+</div>
+</body>
+</html>
